@@ -1,5 +1,4 @@
 from collections import defaultdict
-
 def distribuir_segun_ultimo_digito(cantidad_placas):
     base_datos = defaultdict(list)
     contador = {'Lunes': 0, 'Martes': 0, 'Miércoles': 0, 'Jueves': 0, 'Viernes': 0}
@@ -7,17 +6,13 @@ def distribuir_segun_ultimo_digito(cantidad_placas):
     numeros_martes = [2, 4]
     numeros_miercoles = [5, 7]
     numeros_jueves = [6, 8]
-    numeros_viernes = [0, 9]
-    
+    numeros_viernes = [0, 9]    
     placa = 'AAA000'
-
     while placa <= 'ZZZ999' and sum(contador.values()) < cantidad_placas:
         letras = placa[:3]
-        numeros = placa[3:]
-        
+        numeros = placa[3:]        
         ultimo_digito = int(numeros[-1])
-        dia_asignado = None
-        
+        dia_asignado = None        
         if contador['Lunes'] < cantidad_placas // 5 and ultimo_digito in numeros_lunes:
             dia_asignado = 'Lunes'
         elif contador['Martes'] < cantidad_placas // 5 and ultimo_digito in numeros_martes:
@@ -28,12 +23,10 @@ def distribuir_segun_ultimo_digito(cantidad_placas):
             dia_asignado = 'Jueves'
         elif contador['Viernes'] < cantidad_placas // 5 and ultimo_digito in numeros_viernes:
             dia_asignado = 'Viernes'
-
         if dia_asignado:
             base_datos[dia_asignado].append(placa)
             contador[dia_asignado] += 1
 
-        # Calcular la próxima placa alfanumérica
         numero = int(numeros) + 1
         if numero < 1000:
             placa = letras + str(numero).zfill(3)
@@ -46,11 +39,8 @@ def distribuir_segun_ultimo_digito(cantidad_placas):
                 break
 
     return dict(base_datos)
-
 cantidad_a_generar = 78000
-
 base_datos_placas = distribuir_segun_ultimo_digito(cantidad_a_generar)
-
 for dia, lista_placas in base_datos_placas.items():
     print(f"{dia}: {len(lista_placas)} placas")
     print(lista_placas[:5])
