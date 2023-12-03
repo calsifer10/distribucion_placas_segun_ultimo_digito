@@ -2,27 +2,23 @@ from collections import defaultdict
 def distribuir_segun_ultimo_digito(cantidad_placas):
     base_datos = defaultdict(list)
     contador = {'Lunes': 0, 'Martes': 0, 'Miércoles': 0, 'Jueves': 0, 'Viernes': 0}
-    numeros_lunes = [1, 3]
-    numeros_martes = [2, 4]
-    numeros_miercoles = [5, 7]
-    numeros_jueves = [6, 8]
-    numeros_viernes = [0, 9]    
+    numeros_dias = {
+        'Lunes': [1, 3],
+        'Martes': [2, 4],
+        'Miércoles': [5, 7],
+        'Jueves': [6, 8],
+        'Viernes': [0, 9]
+    }   
     placa = 'AAA000'
     while placa <= 'ZZZ999' and sum(contador.values()) < cantidad_placas:
         letras = placa[:3]
         numeros = placa[3:]        
         ultimo_digito = int(numeros[-1])
         dia_asignado = None        
-        if contador['Lunes'] < cantidad_placas // 5 and ultimo_digito in numeros_lunes:
-            dia_asignado = 'Lunes'
-        elif contador['Martes'] < cantidad_placas // 5 and ultimo_digito in numeros_martes:
-            dia_asignado = 'Martes'
-        elif contador['Miércoles'] < cantidad_placas // 5 and ultimo_digito in numeros_miercoles:
-            dia_asignado = 'Miércoles'
-        elif contador['Jueves'] < cantidad_placas // 5 and ultimo_digito in numeros_jueves:
-            dia_asignado = 'Jueves'
-        elif contador['Viernes'] < cantidad_placas // 5 and ultimo_digito in numeros_viernes:
-            dia_asignado = 'Viernes'
+        for dia, numeros_dia in numeros_dias.items():
+            if contador[dia] < cantidad_placas // 5 and ultimo_digito in numeros_dia:
+                dia_asignado = dia
+                break
         if dia_asignado:
             base_datos[dia_asignado].append(placa)
             contador[dia_asignado] += 1
